@@ -19,10 +19,20 @@ def Analyze(input):
 def detectField(input):
 
     input = input.astype('uint8')
-    threshold = cv2.Canny(input, 100, 1)
-    cv2.imshow('Field', threshold)
+    input = tophat(input, disk(1))
+    smoothing = gaussian_kernel(size=10)
+    edge = cv2.filter2D(input, -1, smoothing)
+    cv2.imshow('Field', edge)
     cv2.waitKey(0)
     return
+
+
+def gaussian_kernel(size, sigma=5):
+    size = int(size) // 2
+    x, y = np.mgrid[-size:size+1, -size:size+1]
+    normal = 1 / (2.0 * np.pi * sigma**2)
+    g =  np.exp(-((x**2 + y**2) / (2.0*sigma**2))) * normal
+    return g
 
 
 parser = argparse.ArgumentParser()
