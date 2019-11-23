@@ -1,6 +1,6 @@
 import argparse
 import pydicom
-from skimage.morphology import square
+from skimage.morphology import square, disk
 from skimage.morphology import white_tophat
 from skimage.filters.rank import bottomhat
 import cv2
@@ -17,28 +17,14 @@ def Analyze(input):
 
 
 def detectField(input):
-    #radiation field detection and contouring
-    _, threshold = cv2.threshold(input, 230, 255, 0)  # field
+
+    output = bottomhat(input, square(50))
+    blur = cv2.GaussianBlur(output, (5, 5), 0)
+    _, threshold = cv2.threshold(blur, 230, 255, 0)
     threshold = threshold.astype('uint8')
-    contours, hierarchy = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    i = 0
-    for cnt in contours:
-        for i in tqdm(np.arange(len(contours))):
-            cv2.drawContours(threshold, [cnt], -1, (78, 55, -128), 1)
-            M = cv2.moments(cnt)
-            time.sleep(0.1)
-        i = i + 1
-    cX = int(M["m10"] / M["m00"])
-    cY = int(M["m01"] / M["m00"])
-    cv2.circle(threshold, (cX, cY), 2, (78, 55, -128), 1)
-    cv2.putText(threshold, "center", (cX - 20, cY - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-    cv2.imshow("Field", threshold)
-    cv2.moveWindow("Field", 300, 30)
-    print("X-Coordinate: " + str(cX))
-    print("Y-Coordinate: " + str(cY))
+    cv2.imshow('Field', threshold)
     cv2.waitKey(0)
-    return threshold, cX, cY
-    #Done
+    return threshold
 
 
 parser = argparse.ArgumentParser()
