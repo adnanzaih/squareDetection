@@ -2,7 +2,7 @@ import argparse
 import pydicom
 from skimage.morphology import square, disk
 from skimage.morphology import white_tophat
-from skimage.filters.rank import bottomhat
+from skimage.filters.rank import bottomhat, tophat
 import cv2
 from tqdm import tqdm
 import numpy as np
@@ -18,13 +18,11 @@ def Analyze(input):
 
 def detectField(input):
 
-    output = bottomhat(input, square(50))
-    blur = cv2.GaussianBlur(output, (5, 5), 0)
-    _, threshold = cv2.threshold(blur, 230, 255, 0)
-    threshold = threshold.astype('uint8')
+    input = input.astype('uint8')
+    threshold = cv2.Canny(input, 100, 1)
     cv2.imshow('Field', threshold)
     cv2.waitKey(0)
-    return threshold
+    return
 
 
 parser = argparse.ArgumentParser()
