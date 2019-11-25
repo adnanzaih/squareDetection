@@ -38,8 +38,8 @@ if __name__ == '__main__':
     #cv2.imshow("origin", img)
 
     squares = find_squares(img)
-    print "Find %d squres" % len(squares)
-    cv2.drawContours( img, squares, -1, (0, 255, 0), 3 )
+    print ("Find %d squres" % len(squares))
+    cv2.drawContours(img, squares, -1, (0, 255, 0), 3 )
     cv2.imshow('squares', img)
 
     cv2.waitKey()
