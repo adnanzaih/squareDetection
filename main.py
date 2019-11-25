@@ -41,6 +41,6 @@ def detectField(input):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-input', dest='input', help='sum the integers (default: find the max)', type=str)
+parser.add_argument('-input', dest='input', help='path to dicom directory', type=str)
 results = parser.parse_args()
 Analyze(results.input)
