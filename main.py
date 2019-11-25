@@ -1,7 +1,5 @@
 import argparse
 import pydicom
-from skimage.morphology import square
-from skimage.morphology import white_tophat
 from skimage.filters.rank import bottomhat
 import cv2
 from tqdm import tqdm
