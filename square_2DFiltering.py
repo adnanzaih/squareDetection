@@ -4,7 +4,6 @@ from utils import backgroundStyle
 
 root = Tk()
 root.title("Dropdown Menu")
-root.configure(background="black")
 file_list = []
 file_dir = "N:/MedicalPhysics/Quality Control Program/Treatment/Weekly/Winston-Lutz/Unit 08 SN3864/2019_11_18/QA Winston-Lutz U8/"
 
@@ -21,8 +20,8 @@ mainframe.grid(column=0,row=0, sticky=(N,W,E,S) )
 mainframe.columnconfigure(0, weight = 1)
 mainframe.rowconfigure(0, weight = 1)
 mainframe.pack(pady = 100, padx = 100)
+backgroundStyle(root)
 
-#backgroundStyle(mainframe)
 # Create a Tkinter variable
 tkvar = StringVar(root)
 
@@ -40,3 +39,6 @@ def change_dropdown(*args):
 # link function to change dropdown
 tkvar.trace('w', change_dropdown)
 root.mainloop()
+
+if __name__ == "__main__":
+    print(__name__)
